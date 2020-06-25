@@ -12,10 +12,14 @@
     <div class="">
       <input type="text" name="" ng-model="ctrl.search">
       <button type="button" name="button" ng-click="ctrl.display()">Narrow It Down For Me!</button>
-      {{ctrl.search}}
     </div>
 
-    <div class="">
+  </div>
+
+  <found-items></found-items>
+</div>
+
+    <!-- <div class="">
       <ul ng-repeat="items in ctrl.found" ng-if="ctrl.ctrl">
         <li> Name :{{items.name}}, Short Name : {{items.short_name}}, Description : {{items.description}}
           <button type="button" name="button" ng-click="ctrl.remove($index)">Don't want this one!</button> </li>
@@ -24,6 +28,6 @@
 
     <div class="" ng-if="ctrl.switch">
       Nothing found
-    </div>
+    </div> -->
   </body>
 </html>

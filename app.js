@@ -5,7 +5,15 @@
 
     angular.module("App",[])
     .controller("narrController",narrController)
-    .service("narrService",narrService);
+    .service("narrService",narrService)
+    .directive("foundItems",foundItems);
+
+    function foundItems() {
+      var ddo={
+        templateUrl:"display.html"
+      };
+      return ddo;
+    }
 
     narrController.$inject=["narrService"];
 
@@ -13,11 +21,11 @@
 
       var ctrl=this;
 
-      ctrl.ctrl=false;
-
       ctrl.search="";
 
       ctrl.display=function () {
+
+        ctrl.ctrl=false;
 
         console.log("inside display");
 
