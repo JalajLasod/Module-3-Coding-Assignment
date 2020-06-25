@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" ng-app="App">
+  <head>
+    <meta charset="utf-8">
+    <title>Module 3 Coding Assignment</title>
+    <script src="angular.min.js"></script>
+    <script src="app.js"></script>
+  </head>
+  <body>
+    <h1>Narrow it down</h1>
+
+    <div class="" ng-controller="menuController as ctrl">
+      <input type="text" ng-model="ctrl.item">
+      <button type="button" name="button" ng-click="ctrl.narrItDown()">Narrow It Down For Me!</button><br>
+      <ul ng-repeat="items in ctrl.found">
+        <li>{{items.name}}</li>
+      </ul>
+    </div>
+
+  </body>
+</html>
