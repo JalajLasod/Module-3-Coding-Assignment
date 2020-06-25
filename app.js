@@ -1,69 +1,79 @@
-(function () {
-  "use strict";
+(
+  function () {
 
-  angular.module("App",[])
-  .controller("menuController",menuController)
-  .service("menuService",menuService);
-  // .constant('ApiBasePath', "https://davids-restaurant.herokuapp.com");
+    "use strict";
 
-  menuController.$inject=['menuService'];
+    angular.module("App",[])
+    .controller("narrController",narrController)
+    .service("narrService",narrService);
 
-  function menuController(menuService) {
-    var ctrl=this;
+    narrController.$inject=["narrService"];
 
-    ctrl.item="C";
+    function narrController(narrService) {
 
-    var promise=menuService.getMenu();
-    console.log(promise);
+      var ctrl=this;
 
-    promise.then(function (response) {
-      ctrl.items=response.data.menu_items;
-      console.log(ctrl.items);
-      console.log("I'm in promise");
+      ctrl.ctrl=false;
 
-    })
-    .catch(function (error) {
-      console.log("Something went wrong");
-    });
-    console.log(ctrl.found);
+      ctrl.search="";
 
+      ctrl.display=function () {
 
-    ctrl.narrItDown=function () {
+        console.log("inside display");
 
-        for (var i = 0; i < ctrl.items.length; i++) {
-          console.log("In the for loop");
-
+        narrService.query().then(function (result) {
           ctrl.found=[];
 
-          if (ctrl.items[i].name.includes(ctrl.item)) {
-            console.log(ctrl.items[i].name);
-            ctrl.found.push(ctrl.items[i]);
+          console.log("inside query then");
+
+
+          for (var i = 0; i < result.length; i++) {
+            console.log("inside for loop");
+
+            if (result[i].description.toLowerCase().includes(ctrl.search)) {
+              ctrl.found.push(result[i]);
+            }
           }
-          else {
-            continue;
-          }
-          console.log(ctrl.found);
+        }).then(function () {
+          ctrl.switch=ctrl.nothingFound(ctrl.found.length);
+        });
+
+        if (ctrl.search!="") {
+          ctrl.ctrl=true;
         }
+
+      }
+
+      ctrl.remove=function (index) {
+        ctrl.found.splice(index,1);
+      }
+
+      ctrl.nothingFound=function (length) {
+        if (length==0||ctrl.search=="") {
+          return true;
+        }
+        else {
+          return false;
+        }
+      }
     }
 
-    // for (var i = 0; i < ctrl.items.length; i++) {
-    //   ctrl.items[i]
-    // }
+    narrService.$inject=["$http"];
 
-  };
+    function narrService($http) {
 
-  menuService.$inject=['$http']
+      var service=this;
 
-  function menuService($http) {
-    var service=this;
+      service.query=function () {
+        return $http({
 
-    service.getMenu=function () {
-      var response=$http({
-       method:"GET",
-       url:"http://davids-restaurant.herokuapp.com/menu_items.json"
-     });
-     return response;
-   };
- };
+          url:"http://davids-restaurant.herokuapp.com/menu_items.json"
 
-  })()
+        }).then(function (response) {
+
+          return response.data.menu_items;
+
+        })
+      }
+    }
+  })();
